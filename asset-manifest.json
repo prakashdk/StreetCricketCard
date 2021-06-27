@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/StreetCricketCard/static/css/main.432c8075.chunk.css",
+    "main.js": "/StreetCricketCard/static/js/main.2b71eca1.chunk.js",
+    "main.js.map": "/StreetCricketCard/static/js/main.2b71eca1.chunk.js.map",
+    "runtime-main.js": "/StreetCricketCard/static/js/runtime-main.f97e090e.js",
+    "runtime-main.js.map": "/StreetCricketCard/static/js/runtime-main.f97e090e.js.map",
+    "static/js/2.bbc74694.chunk.js": "/StreetCricketCard/static/js/2.bbc74694.chunk.js",
+    "static/js/2.bbc74694.chunk.js.map": "/StreetCricketCard/static/js/2.bbc74694.chunk.js.map",
+    "static/js/3.9947b77a.chunk.js": "/StreetCricketCard/static/js/3.9947b77a.chunk.js",
+    "static/js/3.9947b77a.chunk.js.map": "/StreetCricketCard/static/js/3.9947b77a.chunk.js.map",
+    "index.html": "/StreetCricketCard/index.html",
+    "static/css/main.432c8075.chunk.css.map": "/StreetCricketCard/static/css/main.432c8075.chunk.css.map",
+    "static/js/2.bbc74694.chunk.js.LICENSE.txt": "/StreetCricketCard/static/js/2.bbc74694.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.f97e090e.js",
+    "static/js/2.bbc74694.chunk.js",
+    "static/css/main.432c8075.chunk.css",
+    "static/js/main.2b71eca1.chunk.js"
+  ]
+}
