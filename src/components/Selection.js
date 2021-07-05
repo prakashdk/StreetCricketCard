@@ -6,7 +6,7 @@ function Selection({ open, handleClose, activity,setBatsman,setBatting,setBowler
   //   const { team1, team2, batting, team1Players, team2Players } = useSelector(
   //     (state) => state.scorecard
   //   );
-     console.log(activity);
+    //  console.log(activity);
   const [batsmen, setBatsmen] = useState([]);
   const [bowler, setSelectedBowler] = useState({});
   const handleBatsmen = (b) => {
@@ -19,23 +19,26 @@ function Selection({ open, handleClose, activity,setBatsman,setBatting,setBowler
     try {
       if (activity === "batting"&&batsmen.length===2&&bowler.key!==undefined) {
            setBatting(batsmen[0],batsmen[1],bowler)
+           setBatsmen([])
            handleClose()
 
         }
       else if (activity === "batsman"&&batsmen.length===1) {
           setBatsman(batsmen[0])
+          setBatsmen([])
           handleClose()
         }
       else if (activity === "bowling"&&bowler.key!==undefined) {
           setBowler(bowler)
+          setSelectedBowler({})
           handleClose()
         }
       else{
-          console.log()
+          // console.log()
         alert("Pick valid requirements");
       }
     } catch (error) {
-        console.log(error)
+        // console.log(error)
       alert("Pick valid requirements");
     }
   };
@@ -74,13 +77,13 @@ function Batting({ max, handle }) {
   const [batsmen, setBatsmen] = useState([]);
   const handleChange = (event, e) => {
     let array = [...batsmen];
-    // console.log(event)
+    console.log(event)
     if (event.target.checked) {
       array.push(e);
     } else {
       array = array.filter((f) => f.key !== e.key);
     }
-    console.log(array);
+    // console.log(array);
     setBatsmen(array);
     handle(array);
   };
@@ -142,7 +145,7 @@ function Bowling({handle}) {
       setBowler({});
       handle({})
     }
-    //   console.log(e)
+      console.log(e)
   };
   const isValidBowler=(k)=>{
     return state.bowler.key===k||(bowler.key!==undefined&&bowler.key!==k)

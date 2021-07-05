@@ -1,8 +1,10 @@
-import { Button } from "@material-ui/core";
+import { Button, Dialog } from "@material-ui/core";
 import { SwapVert } from "@material-ui/icons";
-import React, { useState, useEffect,useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { connect, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import DisplayBowlers from "./DisplayBowlers";
+import InningsDialog from "./InningsDialog";
 import Selection from "./Selection";
 
 function ScoreCard({
@@ -30,48 +32,71 @@ function ScoreCard({
     currentBall,
     isNoBall,
     extras,
-    batting,
-    battedPlayers1,
-    battedPlayers2,
+    team1Players,
     previousState,
+    wickets,
   } = useSelector((state) => state.scorecard);
+  const history=useHistory()
   const [open, setOpen] = useState(false);
+  const [openSummary, setOpenSummary] = useState(false);
   const [activity, setActivity] = useState("");
-  const handleInnings=useCallback(()=>{
-    if(innings===0){
-      setInnings(1)
+  const handleInnings = useCallback(() => {
+    if (innings === 0) {
+      setOpenSummary(true);
+      // setInnings(1)
+    } else {
+      //alert("Match over");
+      setInnings(2)
+      history.push('/summary')
     }
-    else{
+  }, [innings,setInnings,history]);
 
+  useEffect(() => {
+    if (wickets === team1Players.length - 1) {
+      handleInnings();
     }
-  },[innings,setInnings])
+  }, [wickets, team1Players, handleInnings]);
 
-  useEffect(()=>{
-    console.log(currentBall+" called")
-    if(currentBall===6&&currentOver===overs-1){
-      handleInnings()
+  useEffect(() => {
+    // console.log(currentBall + " called");
+    if (currentBall === 6 && currentOver === overs - 1) {
+      handleInnings();
+    } else if (currentBall === 6) {
+      if (wickets < team1Players.length - 1) {
+        setActivity("bowling");
+        setOpen(true);
+        setOver();
+      }
     }
-    else if(currentBall===6){
-      setOver()
-      setActivity("bowling")
-      setOpen(true)
-    }
-  },[currentBall,currentOver,overs,handleInnings,setOver])
+  }, [
+    currentBall,
+    currentOver,
+    overs,
+    handleInnings,
+    setOver,
+    wickets,
+    team1Players,
+  ]);
   useEffect(() => {
     if (strike === 0) {
       setActivity("batting");
       setOpen(true);
     }
   }, [strike]);
-  
+
   const handleClose = () => {
     setOpen(false);
   };
-  const handleWicket=()=>{
-    setActivity('batsman')
-    setOpen(true)
-  }
-  
+  const handleWicket = () => {
+    if (wickets === team1Players.length - 2) {
+      setWicket({});
+    } else {
+      setActivity("batsman");
+      setOpen(true);
+    }
+  };
+
+
   const setBatting = (p1, p2, b1) => {
     let player1 = {
       key: p1.key,
@@ -94,7 +119,7 @@ function ScoreCard({
       oversBowled: 0,
       ballsBowled: 0,
       runs: 0,
-      wickets:0,
+      wickets: 0,
     };
 
     setBatsman1(player1);
@@ -121,20 +146,44 @@ function ScoreCard({
       oversBowled: 0,
       ballsBowled: 0,
       runs: 0,
-      wickets:0,
+      wickets: 0,
     };
     setSelectedBowler(bowler1);
   };
 
+  useEffect(()=>{
+    if(innings===1&&totalScore>=target){
+      handleInnings()
+    }
+  },[totalScore,innings,target,handleInnings])
+
   return (
-    <div> 
-      {isNoBall?<h2 style={{color:'red'}}>it is a no ball, select the runs scored bay batsman in no ball</h2>:<></>}
-      {previousState.isNoBall?<h2 style={{color:'red'}}>it is a Free hit</h2>:<></>}
-      {innings===1?<h2>Target :{target}</h2>:<></>}
-      <h3>Total score :{totalScore}{" "}-{" "}{batting===1?battedPlayers1.length:battedPlayers2.length}</h3>
+    <div>
+      <h1>{innings === 0 ? "1st" : "2nd"} Innings</h1>
+      {isNoBall ? (
+        <h2 style={{ color: "red" }}>
+          it's a no ball, select the runs scored bay batsman in no ball
+        </h2>
+      ) : (
+        <></>
+      )}
+      {previousState.isNoBall ? (
+        <h2 style={{ color: "red" }}>it's a Free hit</h2>
+      ) : (
+        <></>
+      )}
+      {innings === 1 ? <h2>Target :{target}</h2> : <></>}
+      {innings === 1 ? <h2 style={{color:'green'}}>{target-totalScore===1?'Its a tie':''}</h2> : <></>}
+      {innings === 1 ? <h2 style={{color:'red'}}>{target-totalScore} runs needed from {(overs*6)-((currentOver*6)+currentBall)} balls</h2> : <></>}
+      <h3>
+        Total score :{totalScore} - {wickets}
+      </h3>
       <h5>Extras :{extras}</h5>
       <h5>
         Overs :{currentOver}.{currentBall}
+      </h5>
+      <h5>
+        Total overs: {overs}
       </h5>
       <p>
         {batsman1.value}
@@ -145,7 +194,8 @@ function ScoreCard({
         <b>{strike === 2 && "*"}</b> {batsman2.runs}({batsman2.ballsFaced})
       </p>
       <p>
-        {bowler.value} {bowler.wickets}-{bowler.runs}({bowler.oversBowled}.{bowler.ballsBowled})
+        {bowler.value} {bowler.wickets}-{bowler.runs}({bowler.oversBowled}.
+        {bowler.ballsBowled})
       </p>
       <Selection
         open={open}
@@ -217,11 +267,7 @@ function ScoreCard({
         >
           <SwapVert />
         </Button>
-        <Button
-          color="primary"
-          variant="contained"
-          onClick={() => undo()}
-        >
+        <Button color="primary" variant="contained" onClick={() => undo()}>
           Undo
         </Button>
         <Button
@@ -246,16 +292,24 @@ function ScoreCard({
         >
           OUT
         </Button>
-        <Button
-          color="primary"
-          variant="contained"
-          onClick={handleInnings}
-        >
+        <Button color="primary" variant="contained" onClick={handleInnings}>
           END
         </Button>
       </div>
-      <DisplayBowlers/>
-
+      <DisplayBowlers />
+      <Dialog open={openSummary} onClose={() => {setInnings(1);setOpenSummary(false)}}>
+        <InningsDialog />
+        <Button
+          color="secondary"
+          variant="contained"
+          onClick={() => {
+            setInnings(1);
+            setOpenSummary(false);
+          }}
+        >
+          Close
+        </Button>
+      </Dialog>
     </div>
   );
 }
@@ -322,4 +376,3 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 export default connect(null, mapDispatchToProps)(ScoreCard);
-

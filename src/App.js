@@ -1,6 +1,6 @@
 import "./App.css";
 import MenuIcon from "@material-ui/icons/Menu";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { HashRouter as Router, Switch, Route,Link} from "react-router-dom";
 import Home from "./components/Home";
 import Entry from "./components/Entry";
 import Toss from "./components/Toss";
@@ -13,6 +13,7 @@ import {
   Button,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import Summary from "./components/Summary";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,8 +29,12 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
   const classes = useStyles();
+  const handleNewMatch=()=>{
+    localStorage.clear()
+  }
   return (
     <div className="App">
+      <Router>
       <AppBar position="static">
         <Toolbar>
           <IconButton
@@ -43,10 +48,10 @@ function App() {
           <Typography variant="h6" className={classes.title}>
             Scorecard
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button onClick={handleNewMatch} color="inherit"><Link style={{color:'white',textDecoration:'none'}} to='/'>New match</Link></Button>
         </Toolbar>
       </AppBar>
-      <Router>
+      
         <Switch>
           <Route exact path="/">
             <Home />
@@ -59,6 +64,9 @@ function App() {
           </Route>
           <Route exact path="/score-card">
             <ScoreCard />
+          </Route>
+          <Route exact path="/summary">
+            <Summary />
           </Route>
         </Switch>
       </Router>

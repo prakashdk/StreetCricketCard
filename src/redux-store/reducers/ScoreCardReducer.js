@@ -14,14 +14,15 @@ const initialState = {
   totalScore: 0,
   strike: 0,
   extras: 0,
-  target:-1,
+  target: -1,
   battedPlayers1: [],
   battedPlayers2: [],
   bowledPlayers1: [],
   bowledPlayers2: [],
-  previousState: [],
+  previousState: {},
   isNoBall: false,
-  innings:0,
+  innings: 0,
+  wickets: 0,
 };
 function ScoreCardReducer(state = initialState, action) {
   switch (action.type) {
@@ -95,7 +96,7 @@ function ScoreCardReducer(state = initialState, action) {
     case "BATTING":
       return {
         ...state,
-        previousState: {...state,previousState:{}},
+        previousState: { ...state, previousState: {} },
         batting: action.k,
       };
     case "SET_STRIKE":
@@ -106,7 +107,7 @@ function ScoreCardReducer(state = initialState, action) {
     case "SET_SCORE":
       return {
         ...state,
-        previousState: {...state,previousState:{}},
+        previousState: { ...state, previousState: {} },
         strike:
           action.score === 1 || action.score === 3
             ? state.strike === 1
@@ -178,11 +179,11 @@ function ScoreCardReducer(state = initialState, action) {
               }),
       };
     case "UNDO":
-      let temp = {...state.previousState};
+      let temp = { ...state.previousState };
       if (temp.overs) {
         return {
           ...state.previousState,
-          previousState:{}
+          previousState: {},
         };
       } else {
         return {
@@ -192,7 +193,7 @@ function ScoreCardReducer(state = initialState, action) {
     case "SET_EXTRAS":
       return {
         ...state,
-        previousState: {...state,previousState:{}},
+        previousState: { ...state, previousState: {} },
         totalScore: state.totalScore + 1,
         extras: state.extras + 1,
         isNoBall: action.extras,
@@ -200,7 +201,8 @@ function ScoreCardReducer(state = initialState, action) {
     case "SET_WICKET":
       return {
         ...state,
-        previousState: {...state,previousState:{}},
+        wickets: state.wickets + 1,
+        previousState: { ...state, previousState: {} },
         bowler: {
           ...state.bowler,
           wickets: state.bowler.wickets + 1,
@@ -242,19 +244,20 @@ function ScoreCardReducer(state = initialState, action) {
         batsman1: state.strike === 1 ? action.newBatsman : state.batsman1,
         batsman2: state.strike === 2 ? action.newBatsman : state.batsman2,
       };
-      case 'SET_INNINGS':
-      return{
+    case "SET_INNINGS":
+      return {
         ...state,
-        target:state.totalScore,
-        totalScore:0,
-        extras:0,
-        previousState: {...state,previousState:{}},
-        innings:action.k,
-        batting:state.batting===1?2:1,
-        strike:0,
-        batsman1:{},
-        batsman2:{},
-        bowler:{},
+        wickets: 0,
+        target: state.totalScore + 1,
+        totalScore: 0,
+        extras: 0,
+        previousState: { ...state, previousState: {} },
+        innings: action.k,
+        batting: state.batting === 1 ? 2 : 1,
+        strike: 0,
+        batsman1: {},
+        batsman2: {},
+        bowler: {},
         currentOver: 0,
         currentBall: 0,
         bowledPlayers1:
@@ -279,32 +282,27 @@ function ScoreCardReducer(state = initialState, action) {
                 }
                 return { ...e };
               }),
-              battedPlayers1:
+        battedPlayers1:
           state.batting === 1
             ? state.battedPlayers1.concat(
-                state.strike === 1
-                  ? {
-                      ...state.batsman1,
-                    }
-                  : {
-                      ...state.batsman2,
-                    }
-              )
+                {
+                  ...state.batsman1,
+                }).concat({
+                  ...state.batsman2,
+                }).filter(i=>i.key!==undefined)
+              
             : state.battedPlayers1,
         battedPlayers2:
           state.batting === 2
             ? state.battedPlayers2.concat(
-                state.strike === 1
-                  ? {
-                      ...state.batsman1,
-                      
-                    }
-                  : {
-                      ...state.batsman2,
-                    }
-              )
+                {
+                  ...state.batsman1,
+                }).concat({
+                  ...state.batsman2,
+                }).filter(i=>i.key!==undefined)
+        
             : state.battedPlayers2,
-      }
+      };
 
     default:
       return {
