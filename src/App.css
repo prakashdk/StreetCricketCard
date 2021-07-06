@@ -1,9 +1,81 @@
 .App {
-  text-align: center;  
+  font-family: verdana;
+  text-align: center;
+  text-transform: capitalize;
 }
 .form{
   padding:2%;
 }
 .form-group{
   padding:2%;
+}
+.box{
+  padding: 1%;
+  
+}
+.score-display{
+  display: grid;
+  grid-template-columns: auto auto auto;
+  border: 1px solid black;
+  border-radius: 50px;  
+}
+.batsman-group,.bowler{
+  text-align: left;
+  padding: 2%;
+  
+}
+.bowler{
+  overflow-x:scroll;
+}
+.batsman{
+  padding-left: 2%;
+}
+
+.batsman1{
+  padding: 1%;
+  
+}
+.score{
+  text-align: center;
+  border: 1px solid black;
+  padding: 2%;
+  color:white;
+  background-color: #3341ff;
+  border-radius: 50px;
+}
+
+.batsman-runs{
+  font-size: 2.5vw;
+}
+
+.balls{
+  font-size: 1.3vw;
+}
+.total-score{
+  font-size: 5vw;
+  font: bolder;
+}
+.this-over{
+  width: 10px;
+}
+.bowler::-webkit-scrollbar {
+  height: 1px;
+}
+
+/* Track */
+.bowler::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+.bowler::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+.bowler::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+.summary{
+  padding: 2%;
 }

@@ -5,7 +5,11 @@ import {
   TableHead,
   TableCell,
   TableRow,
+  TableContainer,
+  Paper,
+  withStyles,
 } from "@material-ui/core";
+
 import { useSelector } from "react-redux";
 
 export default function InningsDialog() {
@@ -21,110 +25,146 @@ export default function InningsDialog() {
     batsman2,
     bowler,
   } = useSelector((state) => state.scorecard);
-  const mergeBatsmen=(squad,played)=>{
-      let array=squad.map(e=>{
-          let bat=played.find(i=>i.key===e.key)
-          if(batsman1.key===e.key){
-              return {...batsman1}
-          }
-          else if(batsman2.key===e.key){
-              return {...batsman2}
-          }
-          else if(bat!==undefined){
-              return {...bat}
-          }
-          else{
-              return ''
-          }
-      }).filter(i=>i!=='')
-      console.log(array)
-      return array
-  }
-  const mergeBowlers=(squad,played)=>{
-      let array=squad.map(e=>{
-          let ball=played.find(i=>i.key===e.key)
-          if(bowler.key===e.key){
-              return {...bowler}
-          }
-          else if(ball!==undefined){
-              return {...ball}
-          }
-          return ''
-      }).filter(i=>i!=='')
-      return array
-  }
+  const mergeBatsmen = (squad, played) => {
+    let array = squad
+      .map((e) => {
+        let bat = played.find((i) => i.key === e.key);
+        if (batsman1.key === e.key) {
+          return { ...batsman1 };
+        } else if (batsman2.key === e.key) {
+          return { ...batsman2 };
+        } else if (bat !== undefined) {
+          return { ...bat };
+        } else {
+          return "";
+        }
+      })
+      .filter((i) => i !== "");
+    console.log(array);
+    return array;
+  };
+  const mergeBowlers = (squad, played) => {
+    let array = squad
+      .map((e) => {
+        let ball = played.find((i) => i.key === e.key);
+        if (bowler.key === e.key) {
+          return { ...bowler };
+        } else if (ball !== undefined) {
+          return { ...ball };
+        }
+        return "";
+      })
+      .filter((i) => i !== "");
+    return array;
+  };
   return (
-    <div>
+    <div className="summary">
       <h1>1st Innings Summary</h1>
       <h3>Batsmen</h3>
       {batting === 1 ? (
-        <BattingDisplay list={mergeBatsmen(team1Players,battedPlayers1)} />
+        <BattingDisplay list={mergeBatsmen(team1Players, battedPlayers1)} />
       ) : (
-        <BattingDisplay list={mergeBatsmen(team2Players,battedPlayers2)} />
+        <BattingDisplay list={mergeBatsmen(team2Players, battedPlayers2)} />
       )}
       <h3>Bowlers</h3>
       {batting === 1 ? (
-        <BowlingDisplay list={mergeBowlers(team2Players,bowledPlayers2)} />
+        <BowlingDisplay list={mergeBowlers(team2Players, bowledPlayers2)} />
       ) : (
-        <BowlingDisplay list={mergeBowlers(team1Players,bowledPlayers1)} />
+        <BowlingDisplay list={mergeBowlers(team1Players, bowledPlayers1)} />
       )}
     </div>
   );
 }
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
 
 export function BattingDisplay({ list }) {
   return (
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell>Player name</TableCell>
-          <TableCell>Runs</TableCell>
-          <TableCell>Strike rate</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {list.map((e) => {
-          return (
-            <TableRow key={e.key}>
-              <TableCell>{e.value}<small style={{fontSize:'7px',color:'red'}}>{e.out?' OUT':' NOT OUT'}</small></TableCell>
-              <TableCell>
-                {e.runs}({e.ballsFaced})
-              </TableCell>
-              <TableCell>{((e.runs / e.ballsFaced) * 100).toFixed(2)}</TableCell>
-            </TableRow>
-          );
-        })}
-      </TableBody>
-    </Table>
+    <TableContainer component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <StyledTableCell>Player name</StyledTableCell>
+            <StyledTableCell>Runs</StyledTableCell>
+            <StyledTableCell>Strike rate</StyledTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {list.map((e) => {
+            return (
+              <StyledTableRow key={e.key}>
+                <StyledTableCell>
+                  {e.value}
+                  <small style={{ fontSize: "7px", color: "red" }}>
+                    {e.out ? " OUT" : " NOT OUT"}
+                  </small>
+                </StyledTableCell>
+                <StyledTableCell>
+                  {e.runs}({e.ballsFaced})
+                </StyledTableCell>
+                <StyledTableCell>
+                  {((e.runs / e.ballsFaced) * 100).toFixed(2)}
+                </StyledTableCell>
+              </StyledTableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }
 export function BowlingDisplay({ list }) {
+  const economy = (runs, overs, balls) => {
+    let a = balls / 6;
+    let b = overs + a;
+    return runs / b;
+  };
   return (
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell>Player name</TableCell>
-          <TableCell>Wickets</TableCell>
-          <TableCell>Runs</TableCell>
-          <TableCell>Overs</TableCell>
-          <TableCell>Economy</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {list.map((e) => {
-          return (
-            <TableRow key={e.key}>
-              <TableCell>{e.value}</TableCell>
-              <TableCell>{e.wickets}</TableCell>
-              <TableCell>{e.runs}</TableCell>
-              <TableCell>
-                {e.oversBowled+(e.ballsBowled===6?1:0)}.{e.ballsBowled===6?0:e.ballsBowled}
-              </TableCell>
-              <TableCell>{(e.runs/ (e.oversBowled+(e.ballsBowled<=3?0:1))).toFixed(2)}</TableCell>
-            </TableRow>
-          );
-        })}
-      </TableBody>
-    </Table>
+    <TableContainer component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <StyledTableCell>Player name</StyledTableCell>
+            <StyledTableCell>Wickets</StyledTableCell>
+            <StyledTableCell>Runs</StyledTableCell>
+            <StyledTableCell>Overs</StyledTableCell>
+            <StyledTableCell>Economy</StyledTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {list.map((e) => {
+            return (
+              <StyledTableRow key={e.key}>
+                <StyledTableCell>{e.value}</StyledTableCell>
+                <StyledTableCell>{e.wickets}</StyledTableCell>
+                <StyledTableCell>{e.runs}</StyledTableCell>
+                <StyledTableCell>
+                  {e.oversBowled + (e.ballsBowled === 6 ? 1 : 0)}.
+                  {e.ballsBowled === 6 ? 0 : e.ballsBowled}
+                </StyledTableCell>
+                <StyledTableCell>
+                  {economy(e.runs, e.oversBowled, e.ballsBowled).toFixed(2)}
+                </StyledTableCell>
+              </StyledTableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }

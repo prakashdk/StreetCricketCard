@@ -3,24 +3,47 @@ import React, { useState } from "react";
 import { connect, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 function Entry({ setPlayers1, setPlayers2 }) {
-  const { team1, team2 } = useSelector((state) => state.scorecard);
+  const { team1, team2, team1Players } = useSelector(
+    (state) => state.scorecard
+  );
   const [team, setTeam] = useState(0);
-  const init = [{key:1,value:''} ,{key:2,value:''},{key:3,value:''},{key:4,value:''},{key:5,value:''},{key:6,value:''},{key:7,value:''},{key:8,value:''},{key:9,value:''},{key:10,value:''},{key:11,value:''}];
+  const init = [
+    { key: 1, value: "" },
+    { key: 2, value: "" },
+    { key: 3, value: "" },
+    { key: 4, value: "" },
+    { key: 5, value: "" },
+    { key: 6, value: "" },
+    { key: 7, value: "" },
+    { key: 8, value: "" },
+    { key: 9, value: "" },
+    { key: 10, value: "" },
+    { key: 11, value: "" },
+  ];
   const [players, setPlayers] = useState(init);
   const history = useHistory();
   const handleChange = (e, i) => {
     let temp = [...players];
-    let updated = [...temp.slice(0, i), {key:i+1,value:e.target.value}, ...temp.slice(i + 1)];
+    let updated = [
+      ...temp.slice(0, i),
+      { key: i + 1, value: e.target.value },
+      ...temp.slice(i + 1),
+    ];
     setPlayers(updated);
   };
   const handleNext = () => {
-    if (team === 0) {
-      setTeam(1);
-      setPlayers(init);
-      setPlayers1(players);
+    let array = players.filter((e) => e.value !== "");
+    if (array.length < 2 || array.length < team1Players.length) {
+      alert("pick valid number of players");
     } else {
-      setPlayers2(players);
-      history.push("/toss");
+      if (team === 0) {
+        setTeam(1);
+        setPlayers(init);
+        setPlayers1(players);
+      } else {
+        setPlayers2(players);
+        history.push("/toss");
+      }
     }
   };
   const handlePrevious = () => {

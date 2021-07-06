@@ -284,23 +284,25 @@ function ScoreCardReducer(state = initialState, action) {
               }),
         battedPlayers1:
           state.batting === 1
-            ? state.battedPlayers1.concat(
-                {
+            ? state.battedPlayers1
+                .concat({
                   ...state.batsman1,
-                }).concat({
+                })
+                .concat({
                   ...state.batsman2,
-                }).filter(i=>i.key!==undefined)
-              
+                })
+                .filter((i) => i.key !== undefined)
             : state.battedPlayers1,
         battedPlayers2:
           state.batting === 2
-            ? state.battedPlayers2.concat(
-                {
+            ? state.battedPlayers2
+                .concat({
                   ...state.batsman1,
-                }).concat({
+                })
+                .concat({
                   ...state.batsman2,
-                }).filter(i=>i.key!==undefined)
-        
+                })
+                .filter((i) => i.key !== undefined)
             : state.battedPlayers2,
       };
 
