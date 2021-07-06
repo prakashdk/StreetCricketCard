@@ -24,6 +24,7 @@ export default function InningsDialog() {
     batsman1,
     batsman2,
     bowler,
+    totalScore,
   } = useSelector((state) => state.scorecard);
   const mergeBatsmen = (squad, played) => {
     let array = squad
@@ -60,6 +61,7 @@ export default function InningsDialog() {
   return (
     <div className="summary">
       <h1>1st Innings Summary</h1>
+      <h2>Total score:{totalScore}</h2>
       <h3>Batsmen</h3>
       {batting === 1 ? (
         <BattingDisplay list={mergeBatsmen(team1Players, battedPlayers1)} />
