@@ -219,7 +219,7 @@ function ScoreCard({
               >
                 <div className="batsman-runs">
                   <ArrowRight
-                    style={{ color: `${strike === 1 ? "" : "white"}` }}
+                    style={{ visibility: `${strike === 1 ? "visible" : "hidden"}` }}
                   />
                   {batsman1.value}
                 </div>
@@ -235,7 +235,7 @@ function ScoreCard({
               >
                 <div className="batsman-runs">
                   <ArrowRight
-                    style={{ color: `${strike === 2 ? "" : "white"}` }}
+                    style={{ visibility: `${strike === 2 ? "visible" : "hidden"}` }}
                   />
                   {batsman2.value}
                 </div>
