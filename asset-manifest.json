@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/StreetCricketCard/static/css/main.e2ce7a89.chunk.css",
-    "main.js": "/StreetCricketCard/static/js/main.78fb69ed.chunk.js",
-    "main.js.map": "/StreetCricketCard/static/js/main.78fb69ed.chunk.js.map",
-    "runtime-main.js": "/StreetCricketCard/static/js/runtime-main.8f4ed207.js",
-    "runtime-main.js.map": "/StreetCricketCard/static/js/runtime-main.8f4ed207.js.map",
-    "static/js/2.8ef1c75b.chunk.js": "/StreetCricketCard/static/js/2.8ef1c75b.chunk.js",
-    "static/js/2.8ef1c75b.chunk.js.map": "/StreetCricketCard/static/js/2.8ef1c75b.chunk.js.map",
-    "static/js/3.5276fb35.chunk.js": "/StreetCricketCard/static/js/3.5276fb35.chunk.js",
-    "static/js/3.5276fb35.chunk.js.map": "/StreetCricketCard/static/js/3.5276fb35.chunk.js.map",
+    "main.js": "/StreetCricketCard/static/js/main.280a8dcb.chunk.js",
+    "main.js.map": "/StreetCricketCard/static/js/main.280a8dcb.chunk.js.map",
+    "runtime-main.js": "/StreetCricketCard/static/js/runtime-main.7e932421.js",
+    "runtime-main.js.map": "/StreetCricketCard/static/js/runtime-main.7e932421.js.map",
+    "static/js/2.05845e34.chunk.js": "/StreetCricketCard/static/js/2.05845e34.chunk.js",
+    "static/js/2.05845e34.chunk.js.map": "/StreetCricketCard/static/js/2.05845e34.chunk.js.map",
+    "static/js/3.fc91f125.chunk.js": "/StreetCricketCard/static/js/3.fc91f125.chunk.js",
+    "static/js/3.fc91f125.chunk.js.map": "/StreetCricketCard/static/js/3.fc91f125.chunk.js.map",
     "index.html": "/StreetCricketCard/index.html",
     "static/css/main.e2ce7a89.chunk.css.map": "/StreetCricketCard/static/css/main.e2ce7a89.chunk.css.map",
-    "static/js/2.8ef1c75b.chunk.js.LICENSE.txt": "/StreetCricketCard/static/js/2.8ef1c75b.chunk.js.LICENSE.txt"
+    "static/js/2.05845e34.chunk.js.LICENSE.txt": "/StreetCricketCard/static/js/2.05845e34.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.8f4ed207.js",
-    "static/js/2.8ef1c75b.chunk.js",
+    "static/js/runtime-main.7e932421.js",
+    "static/js/2.05845e34.chunk.js",
     "static/css/main.e2ce7a89.chunk.css",
-    "static/js/main.78fb69ed.chunk.js"
+    "static/js/main.280a8dcb.chunk.js"
   ]
 }
