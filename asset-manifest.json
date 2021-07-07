@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/StreetCricketCard/static/css/main.f5ee079a.chunk.css",
-    "main.js": "/StreetCricketCard/static/js/main.97c43b4d.chunk.js",
-    "main.js.map": "/StreetCricketCard/static/js/main.97c43b4d.chunk.js.map",
-    "runtime-main.js": "/StreetCricketCard/static/js/runtime-main.7f71d4f0.js",
-    "runtime-main.js.map": "/StreetCricketCard/static/js/runtime-main.7f71d4f0.js.map",
-    "static/js/2.fc302a25.chunk.js": "/StreetCricketCard/static/js/2.fc302a25.chunk.js",
-    "static/js/2.fc302a25.chunk.js.map": "/StreetCricketCard/static/js/2.fc302a25.chunk.js.map",
-    "static/js/3.73bcf782.chunk.js": "/StreetCricketCard/static/js/3.73bcf782.chunk.js",
-    "static/js/3.73bcf782.chunk.js.map": "/StreetCricketCard/static/js/3.73bcf782.chunk.js.map",
+    "main.css": "/StreetCricketCard/static/css/main.e2ce7a89.chunk.css",
+    "main.js": "/StreetCricketCard/static/js/main.78fb69ed.chunk.js",
+    "main.js.map": "/StreetCricketCard/static/js/main.78fb69ed.chunk.js.map",
+    "runtime-main.js": "/StreetCricketCard/static/js/runtime-main.8f4ed207.js",
+    "runtime-main.js.map": "/StreetCricketCard/static/js/runtime-main.8f4ed207.js.map",
+    "static/js/2.8ef1c75b.chunk.js": "/StreetCricketCard/static/js/2.8ef1c75b.chunk.js",
+    "static/js/2.8ef1c75b.chunk.js.map": "/StreetCricketCard/static/js/2.8ef1c75b.chunk.js.map",
+    "static/js/3.5276fb35.chunk.js": "/StreetCricketCard/static/js/3.5276fb35.chunk.js",
+    "static/js/3.5276fb35.chunk.js.map": "/StreetCricketCard/static/js/3.5276fb35.chunk.js.map",
     "index.html": "/StreetCricketCard/index.html",
-    "static/css/main.f5ee079a.chunk.css.map": "/StreetCricketCard/static/css/main.f5ee079a.chunk.css.map",
-    "static/js/2.fc302a25.chunk.js.LICENSE.txt": "/StreetCricketCard/static/js/2.fc302a25.chunk.js.LICENSE.txt"
+    "static/css/main.e2ce7a89.chunk.css.map": "/StreetCricketCard/static/css/main.e2ce7a89.chunk.css.map",
+    "static/js/2.8ef1c75b.chunk.js.LICENSE.txt": "/StreetCricketCard/static/js/2.8ef1c75b.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.7f71d4f0.js",
-    "static/js/2.fc302a25.chunk.js",
-    "static/css/main.f5ee079a.chunk.css",
-    "static/js/main.97c43b4d.chunk.js"
+    "static/js/runtime-main.8f4ed207.js",
+    "static/js/2.8ef1c75b.chunk.js",
+    "static/css/main.e2ce7a89.chunk.css",
+    "static/js/main.78fb69ed.chunk.js"
   ]
 }
