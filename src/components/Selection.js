@@ -86,7 +86,6 @@ function Batting({ max, handle }) {
   const [batsmen, setBatsmen] = useState([]);
   const handleChange = (event, e) => {
     let array = [...batsmen];
-    console.log(event);
     if (event.target.checked) {
       array.push(e);
     } else {
@@ -170,7 +169,7 @@ function Bowling({ handle }) {
       setBowler({});
       handle({});
     }
-    console.log(e);
+    // console.log(e);
   };
   const isValidBowler = (k) => {
     return (

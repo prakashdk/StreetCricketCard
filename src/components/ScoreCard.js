@@ -1,5 +1,5 @@
 import { Button, Dialog } from "@material-ui/core";
-import { ArrowRight, SwapVert,Restore } from "@material-ui/icons";
+import { ArrowRight, SwapVert, Restore } from "@material-ui/icons";
 import React, { useState, useEffect, useCallback } from "react";
 import { connect, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -50,9 +50,9 @@ function ScoreCard({
     return totalScore / b;
   };
   const reqRunRate = () => {
-    let run=target-totalScore;
-    let over=overs-currentOver-1;
-    let ball=6-currentBall;
+    let run = target - totalScore;
+    let over = overs - currentOver - 1;
+    let ball = 6 - currentBall;
     let a = ball / 6;
     let b = over + a;
     return run / b;
@@ -72,10 +72,11 @@ function ScoreCard({
     setThisOver(array);
   };
   const handleInnings = useCallback(() => {
+    // console.log(innings + " innings");
     if (innings === 0) {
       setOpenSummary(true);
       // setInnings(1)
-    } else {
+    } else if (innings === 1) {
       //alert("Match over");
       setInnings(2);
       history.push("/summary");
@@ -84,14 +85,12 @@ function ScoreCard({
   }, [innings, setInnings, history]);
 
   useEffect(() => {
-    if (wickets === team1Players.length - 1) {
-      handleInnings();
-    }
-  }, [wickets, team1Players, handleInnings]);
-
-  useEffect(() => {
-    // console.log(currentBall + " called");
-    if (currentBall === 6 && currentOver === overs - 1) {
+    if (
+      (currentBall === 6 && currentOver === overs - 1) ||
+      (innings === 1 && totalScore >= target) ||
+      wickets === team1Players.length - 1
+    ) {
+      // console.log("over use effect called");
       handleInnings();
       setThisOver([]);
     } else if (currentBall === 6) {
@@ -110,13 +109,20 @@ function ScoreCard({
     setOver,
     wickets,
     team1Players,
+    innings,
+    totalScore,
+    target,
   ]);
   useEffect(() => {
+    // console.log("strike useEffect called");
+    if(innings===2){
+      history.push('/summary')
+    }
     if (strike === 0) {
       setActivity("batting");
       setOpen(true);
     }
-  }, [strike]);
+  }, [strike]);// eslint-disable-line react-hooks/exhaustive-deps
 
   const handleClose = () => {
     setOpen(false);
@@ -184,12 +190,6 @@ function ScoreCard({
     setSelectedBowler(bowler1);
   };
 
-  useEffect(() => {
-    if (innings === 1 && totalScore >= target) {
-      handleInnings();
-    }
-  }, [totalScore, innings, target, handleInnings]);
-
   return (
     <div>
       <h1>{innings === 0 ? "1st" : "2nd"} INNINGS</h1>
@@ -232,7 +232,9 @@ function ScoreCard({
               >
                 <div className="batsman-runs">
                   <ArrowRight
-                    style={{ visibility: `${strike === 1 ? "visible" : "hidden"}` }}
+                    style={{
+                      visibility: `${strike === 1 ? "visible" : "hidden"}`,
+                    }}
                   />
                   {batsman1.value}
                 </div>
@@ -248,7 +250,9 @@ function ScoreCard({
               >
                 <div className="batsman-runs">
                   <ArrowRight
-                    style={{ visibility: `${strike === 2 ? "visible" : "hidden"}` }}
+                    style={{
+                      visibility: `${strike === 2 ? "visible" : "hidden"}`,
+                    }}
                   />
                   {batsman2.value}
                 </div>
@@ -273,7 +277,9 @@ function ScoreCard({
               {team1} vs {team2}
             </div>
             <div>Extras :{extras}</div>
-            <div>Cur.Run Rate:{totalScore===0?'0.00':runRate().toFixed(2)}</div>
+            <div>
+              Cur.Run Rate:{totalScore === 0 ? "0.00" : runRate().toFixed(2)}
+            </div>
           </div>
           <div className="bowler">
             <div style={{ display: "grid", gridTemplateColumns: "auto auto" }}>
@@ -293,9 +299,7 @@ function ScoreCard({
           </div>
         </div>
       </div>
-      <div>
-        {innings===1&&`Req.Run rate:${reqRunRate().toFixed(2)}`}
-      </div>
+      <div>{innings === 1 && `Req.Run rate:${reqRunRate().toFixed(2)}`}</div>
       <Selection
         open={open}
         setBatting={setBatting}
@@ -380,7 +384,7 @@ function ScoreCard({
             popThisOver();
           }}
         >
-          <Restore/>
+          <Restore />
         </Button>
         <Button
           color="primary"

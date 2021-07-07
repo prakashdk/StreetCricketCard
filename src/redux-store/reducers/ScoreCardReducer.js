@@ -105,6 +105,7 @@ function ScoreCardReducer(state = initialState, action) {
         strike: action.k,
       };
     case "SET_SCORE":
+      // console.log("use effect called")
       return {
         ...state,
         previousState: { ...state, previousState: {} },
@@ -146,6 +147,7 @@ function ScoreCardReducer(state = initialState, action) {
         isNoBall: false,
       };
     case "SET_OVER":
+      
       return {
         ...state,
         strike: state.strike === 1 ? 2 : 1,
