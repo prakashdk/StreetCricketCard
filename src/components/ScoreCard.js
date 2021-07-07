@@ -1,5 +1,5 @@
 import { Button, Dialog } from "@material-ui/core";
-import { ArrowRight, SwapVert } from "@material-ui/icons";
+import { ArrowRight, SwapVert,Restore } from "@material-ui/icons";
 import React, { useState, useEffect, useCallback } from "react";
 import { connect, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -44,6 +44,19 @@ function ScoreCard({
   const [openSummary, setOpenSummary] = useState(false);
   const [activity, setActivity] = useState("");
   const [thisOver, setThisOver] = useState([]);
+  const runRate = () => {
+    let a = currentBall / 6;
+    let b = currentOver + a;
+    return totalScore / b;
+  };
+  const reqRunRate = () => {
+    let run=target-totalScore;
+    let over=overs-currentOver-1;
+    let ball=6-currentBall;
+    let a = ball / 6;
+    let b = over + a;
+    return run / b;
+  };
   const handleThisOver = (s) => {
     let array = [...thisOver];
     let p = array.pop();
@@ -260,6 +273,7 @@ function ScoreCard({
               {team1} vs {team2}
             </div>
             <div>Extras :{extras}</div>
+            <div>Cur.Run Rate:{totalScore===0?'0.00':runRate().toFixed(2)}</div>
           </div>
           <div className="bowler">
             <div style={{ display: "grid", gridTemplateColumns: "auto auto" }}>
@@ -278,6 +292,9 @@ function ScoreCard({
             </div>
           </div>
         </div>
+      </div>
+      <div>
+        {innings===1&&`Req.Run rate:${reqRunRate().toFixed(2)}`}
       </div>
       <Selection
         open={open}
@@ -363,7 +380,7 @@ function ScoreCard({
             popThisOver();
           }}
         >
-          Undo
+          <Restore/>
         </Button>
         <Button
           color="primary"

@@ -38,12 +38,12 @@ function ScoreCardReducer(state = initialState, action) {
       }
     case "SET_OVERS":
       return {
-        ...initialState,
+        ...state,
         overs: action.overs,
       };
     case "SET_TEAM1":
       return {
-        ...state,
+        ...initialState,
         team1: action.team1.toUpperCase(),
       };
     case "SET_TEAM2":
@@ -197,6 +197,10 @@ function ScoreCardReducer(state = initialState, action) {
         totalScore: state.totalScore + 1,
         extras: state.extras + 1,
         isNoBall: action.extras,
+        bowler: {
+          ...state.bowler,
+          runs: state.bowler.runs + 1,
+        },
       };
     case "SET_WICKET":
       return {
@@ -305,7 +309,29 @@ function ScoreCardReducer(state = initialState, action) {
                 .filter((i) => i.key !== undefined)
             : state.battedPlayers2,
       };
-
+    case "NEW_MATCH":
+      return {
+        ...initialState,
+      };
+    case "RE_MATCH":
+      return {
+        ...initialState,
+        team1: state.team1,
+        team2: state.team2,
+        team1Players: state.team1Players,
+        team2Players: state.team2Players,
+      };
+    case "SUPER_OVER":
+      return {
+        ...initialState,
+        overs: 1,
+        strike: 0,
+        batting: state.batting === 1 ? 2 : 1,
+        team1: state.team1,
+        team2: state.team2,
+        team1Players: state.team1Players,
+        team2Players: state.team2Players,
+      };
     default:
       return {
         ...state,

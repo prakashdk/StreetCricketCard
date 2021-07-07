@@ -1,11 +1,13 @@
 import { TextField, Button } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useState} from "react";
+import {useEffect } from "react";
 import { connect, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 function Entry({ setPlayers1, setPlayers2 }) {
-  const { team1, team2, team1Players } = useSelector(
+  const { team1, team2, team1Players,team2Players } = useSelector(
     (state) => state.scorecard
   );
+
   const [team, setTeam] = useState(0);
   const init = [
     { key: 1, value: "" },
@@ -21,6 +23,34 @@ function Entry({ setPlayers1, setPlayers2 }) {
     { key: 11, value: "" },
   ];
   const [players, setPlayers] = useState(init);
+  useEffect(() => {
+    if (team === 0) {
+      let array = players.map((val) => {
+        let obj = {
+          key: val.key,
+          value:
+            team1Players.find((k) => k.key === val.key) !== undefined
+              ? team1Players.find((k) => k.key === val.key).value
+              : "",
+        };
+        return { ...obj };
+      });
+      setPlayers(array);
+    }
+    else if (team === 1) {
+      let array = players.map((val) => {
+        let obj = {
+          key: val.key,
+          value:
+            team2Players.find((k) => k.key === val.key) !== undefined
+              ? team2Players.find((k) => k.key === val.key).value
+              : "",
+        };
+        return { ...obj };
+      });
+      setPlayers(array);
+    }
+  }, [team]);// eslint-disable-line react-hooks/exhaustive-deps
   const history = useHistory();
   const handleChange = (e, i) => {
     let temp = [...players];
@@ -33,7 +63,7 @@ function Entry({ setPlayers1, setPlayers2 }) {
   };
   const handleNext = () => {
     let array = players.filter((e) => e.value !== "");
-    if (array.length < 2 || array.length < team1Players.length) {
+    if (array.length < 2 || (team===1&&(array.length !== team1Players.length))) {
       alert("pick valid number of players");
     } else {
       if (team === 0) {

@@ -1,8 +1,11 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { BattingDisplay, BowlingDisplay } from "./InningsDialog";
 
 function Summary() {
+  const dispatch = useDispatch()
+  const history=useHistory()
   const { batting, target, totalScore, wickets } = useSelector(
     (state) => state.scorecard.previousState
   );
@@ -23,8 +26,8 @@ function Summary() {
         <h2 style={{ color: "red" }}>
           {batting === 1 ? team1 : team2} won by{" "}
           {batting === 1
-            ? team1Players.length - wickets
-            : team2Players.length - wickets}{" "}
+            ? team1Players.length - wickets - 1
+            : team2Players.length - wickets - 1}{" "}
           wickets
         </h2>
       ) : target - 1 > totalScore ? (
@@ -32,8 +35,30 @@ function Summary() {
           {batting === 1 ? team2 : team1} won by {target - totalScore} runs
         </h2>
       ) : (
-        <h2 style={{ color: "green" }}>Scores level.It's a tie.</h2>
+        <h2 style={{ color: "green" }}>
+          Scores level.It's a tie.{" "}
+          <small className="link" onClick={()=>{
+            dispatch({
+              type:'SUPER_OVER'
+            })
+            history.push('/score-card')
+          }}>super-over?</small>
+        </h2>
       )}
+      <div className="box">
+        <div className="grid-2">
+          <div>
+            1st innings<br></br>
+            {batting===1?team2:team1}<br></br>
+            score:{target-1}-{batting===1?battedPlayers2.filter(e=>e.out).length:battedPlayers1.filter(e=>e.out).length}<br></br>
+          </div>
+          <div>
+          2nd innings<br></br>
+            {batting===2?team2:team1}<br></br>
+            score:{totalScore}-{wickets}<br></br>
+          </div>
+        </div>
+      </div>
       <h1>1st innings</h1>
 
       {batting === 1 ? (
